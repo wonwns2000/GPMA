@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Minimal ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+                             http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        Minimal ruleset for testing PMD
+    </description>
+
+    <!-- 只用三个存在的规则 -->
+    <rule ref="category/java/codestyle.xml/UnnecessaryModifier"/>
+    <rule ref="category/java/errorprone.xml/NullAssignment"/>
+    <rule ref="category/java/design.xml/UseUtilityClass"/>
+</ruleset>
