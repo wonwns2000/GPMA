@@ -1,11 +1,6 @@
 import json
 import os
 
-import Mining
-import Models
-import numpy as np
-import matplotlib.pyplot as plt
-
 violation_sum = {}
 def get_commit_result(commit_results,repo_path):
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,18 +31,4 @@ def get_commit_result(commit_results,repo_path):
     }
     with open(os.path.join(root_dir,"Result", "commit_result.json"), "w") as f:
         json.dump(result, f, indent=4)
-
-    #visualization
-
-    sorted_rules = sorted(violation_sum.items(), key=lambda x: x[1], reverse=True)
-    rules, counts = zip(*sorted_rules)
-
-
-    # plt.figure(figsize=(6, 3))
-    # plt.bar(rules, counts, color='skyblue')
-    # plt.xticks(rotation=45, ha='right')
-    # plt.ylabel("Number of Violations")
-    # plt.title("PMD Violations by Rule")
-    # plt.tight_layout()
-    # plt.show()
     return

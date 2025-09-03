@@ -1,7 +1,4 @@
-import git
-import os
-import dataclasses
-from dataclasses import dataclass
+
 class CommitResult:
     commit_hash:str
     warning_count:int = 0

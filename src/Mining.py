@@ -1,9 +1,9 @@
 import json
-import shutil
 import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
 from tempfile import TemporaryDirectory
+from typing import Any
 
 import git
 import datetime
@@ -27,6 +27,7 @@ def prepare_repo(repo_input):
         if not os.path.exists(repo_input):
             raise FileNotFoundError(f"Local repo path {repo_input} does not exist.")
         return repo_input, False
+
 def get_commits_hash(filepath,branch = "--all"):
     commits_hash = []
     repo = git.Repo(filepath)
@@ -63,13 +64,21 @@ def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
     
     #Copy the repo
     thread_dir = os.path.join(temp_repo_dir,f".thread{thread_id}")
-    
-    git.Repo.clone_from(repo_path, thread_dir)
-    repo = git.Repo(thread_dir)
+
+    subprocess.run(
+        ["git", "clone", "--local", repo_path, thread_dir],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+    #repo = git.Repo(thread_dir)
     commit_results=[]
     try:
         for commit_hash in commits_hash:
-            repo.git.checkout(commit_hash,force=True)
+            subprocess.run(["git", "-C", thread_dir, "checkout", "-f", commit_hash],
+                           check=True,
+                           stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL)
             java_files_total = 0
             warning_total = 0
             filename = f"{commit_hash}.json"
@@ -91,11 +100,10 @@ def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
     return commit_results
 
 def multi_thread_pmd(repo_path,ruleset_path,max_threads=8):
-    commits_hash = get_commits_hash(repo_path)[:10]
+    commits_hash = get_commits_hash(repo_path)[:100]
     commit_chunks = [commits_hash[i::max_threads] for i in range(max_threads)]
     all_results = []
-    with tempfile.TemporaryDirectory(prefix="repo_temp_") as temp_repo_dir:    
-        git.Repo.clone_from(repo_path,temp_repo_dir)
+    with tempfile.TemporaryDirectory(prefix="repo_temp_") as temp_repo_dir:
         with ThreadPoolExecutor(max_workers=max_threads) as executor:
             futures = []
             for thread_id,commit_chunk in enumerate(commit_chunks):
@@ -116,7 +124,7 @@ def one_thread_pmd_v0(repo_path, ruleset_path):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     repo = git.Repo(repo_path)
     root_dir = os.path.dirname(current_dir)
-    commits_hash = get_commits_hash(repo_path)[:1000]
+    commits_hash = get_commits_hash(repo_path)[:100]
     cache_path = os.path.join(root_dir, "Data", ".pmd_cache")
     # Ensure Data directory exists
     data_dir = os.path.join(root_dir, "Data")

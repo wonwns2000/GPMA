@@ -17,7 +17,7 @@ def print_hi(name):
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 def main():
-    start_time = datetime.datetime.now()
+
     # input repository_path
     input_repo = "https://github.com/apache/commons-lang.git"
     # ruleset_path
@@ -26,7 +26,10 @@ def main():
     repo_path, is_temp = Mining.prepare_repo(input_repo)
     # Mining.thread_analysis(repo_path, ruleset_path,commits_hash,cache_path)
     try:
-        #result = Mining.one_thread_pmd_v0(repo_path,ruleset_path)
+
+        start_time = datetime.datetime.now()
+        print("Start PMD analysis")
+        #result = Mining.one_thread_pmd_v0(repo_path, ruleset_path)
         result = Mining.multi_thread_pmd(repo_path, ruleset_path, max_threads=4)
         Summary.get_commit_result(result, repo_path)
         end_time = datetime.datetime.now()
@@ -36,7 +39,7 @@ def main():
         print(e)
     finally:
         try:
-            if(is_temp):
+            if is_temp:
                 shutil.rmtree(repo_path)
         except PermissionError as e:
             print(e)
