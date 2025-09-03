@@ -21,7 +21,7 @@ def main():
     # input repository_path
     input_repo = "https://github.com/apache/commons-lang.git"
     # ruleset_path
-    ruleset_path = r'./Rulesets/rule1.xml'
+    ruleset_path = r'./Rulesets/rule.xml'
     # prepare temp repository
     repo_path, is_temp = Mining.prepare_repo(input_repo)
     # Mining.thread_analysis(repo_path, ruleset_path,commits_hash,cache_path)
@@ -36,10 +36,10 @@ def main():
         print(e)
     finally:
         try:
-            shutil.rmtree(repo_path)
+            if(is_temp):
+                shutil.rmtree(repo_path)
         except PermissionError as e:
             print(e)
-    print(Mining.total_java_files_count)
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()

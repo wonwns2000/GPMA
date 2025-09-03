@@ -12,9 +12,7 @@ import subprocess
 import os
 from pathlib import Path
 import threading
-
-
-from src.Models import CommitResult
+from Models import CommitResult
 
 total_java_files_count = 0
 lock = threading.Lock()
@@ -24,7 +22,7 @@ def prepare_repo(repo_input):
         temp_dir = tempfile.mkdtemp(prefix="repo_clone_")
         print(f"Cloning {repo_input} to {temp_dir} ...")
         git.Repo.clone_from(repo_input, temp_dir)
-        return temp_dir, True  # True 表示这是临时克隆
+        return temp_dir, True  
     else:
         if not os.path.exists(repo_input):
             raise FileNotFoundError(f"Local repo path {repo_input} does not exist.")
@@ -53,15 +51,20 @@ def run_pmd_command(repo_path, ruleset_path, output_path,cache_path):
     subprocess.run(cmd,shell=True)
     end_time = datetime.datetime.now()
     print(f"Committing took {(end_time-start_time).total_seconds():.2f} seconds")
+    
 def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.dirname(current_dir)
     cache_path = os.path.join(root_dir,"Cache",f".pmdCache{thread_id}")
-    os.makedirs(cache_path, exist_ok=True)
+    
+    # Ensure Data directory exists
+    # os.makedirs(data_dir, exist_ok=True)
+    # data_dir = os.path.join(root_dir, "Data")
+    
     #Copy the repo
     thread_dir = os.path.join(temp_repo_dir,f".thread{thread_id}")
-    shutil.copytree(repo_path, thread_dir, dirs_exist_ok=True)
-    #git.Repo.clone_from(repo_path, thread_dir)
+    
+    git.Repo.clone_from(repo_path, thread_dir)
     repo = git.Repo(thread_dir)
     commit_results=[]
     try:
@@ -83,14 +86,16 @@ def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
                     commit_result.add_violation(violation["rule"])
             commit_results.append(commit_result)
     except Exception as e:
-        print(e)
+        print(f"thread_{thread_id} thread error as {e}")
+        
     return commit_results
+
 def multi_thread_pmd(repo_path,ruleset_path,max_threads=8):
-    with tempfile.TemporaryDirectory(prefix="repo_temp_") as temp_repo_dir:
-        git.Repo.clone_from(repo_path, temp_repo_dir)
-        commits_hash = get_commits_hash(temp_repo_dir)[4000:4500]
-        commit_chunks = [commits_hash[i::max_threads] for i in range(max_threads)]
-        all_results = []
+    commits_hash = get_commits_hash(repo_path)[:10]
+    commit_chunks = [commits_hash[i::max_threads] for i in range(max_threads)]
+    all_results = []
+    with tempfile.TemporaryDirectory(prefix="repo_temp_") as temp_repo_dir:    
+        git.Repo.clone_from(repo_path,temp_repo_dir)
         with ThreadPoolExecutor(max_workers=max_threads) as executor:
             futures = []
             for thread_id,commit_chunk in enumerate(commit_chunks):
@@ -113,6 +118,9 @@ def one_thread_pmd_v0(repo_path, ruleset_path):
     root_dir = os.path.dirname(current_dir)
     commits_hash = get_commits_hash(repo_path)[:1000]
     cache_path = os.path.join(root_dir, "Data", ".pmd_cache")
+    # Ensure Data directory exists
+    data_dir = os.path.join(root_dir, "Data")
+    os.makedirs(data_dir, exist_ok=True)
     commit_results = []
 
     for commit_hash in commits_hash:

@@ -10,6 +10,9 @@ violation_sum = {}
 def get_commit_result(commit_results,repo_path):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.dirname(current_dir)
+    # Ensure Result directory exists
+    result_dir = os.path.join(root_dir, "Result")
+    os.makedirs(result_dir, exist_ok=True)
     global violation_sum
     total_java_files_count = 0
     total_violations_count = 0
