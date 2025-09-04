@@ -73,8 +73,7 @@ def run_pmd_command(repo_path, ruleset_path, output_path,cache_path):
         "-f", "json",
         "-r", output_path,
         "--cache", cache_path,
-        "--threads", "4",
-        "--no-progress"
+        "--threads", "4"
     ]
     try:
         subprocess.run(cmd, check=True)
