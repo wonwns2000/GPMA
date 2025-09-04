@@ -32,7 +32,7 @@ def validate_inputs(repo, ruleset):
     if not os.path.isfile(ruleset):
         print(f"Ruleset file '{ruleset}' does not exist.")
         sys.exit(1)
-        # 仓库检查
+        # Check Repo
     if repo.startswith(("http://", "https://", "git@")):
         if not check_remote_repo(repo):
             print(f"Remote repository '{repo}' does not exist or cannot be reached.")
@@ -143,7 +143,7 @@ def split_list(commits_hash,n):
         start = end
     return chunks
 
-def multi_thread_pmd(repo_path,ruleset_path,max_threads=8):
+def multi_thread_pmd(repo_path,ruleset_path,max_threads=4):
     commits_hash = get_commits_hash(repo_path)
     commit_chunks = split_list(commits_hash,max_threads)
     all_results = []
@@ -168,7 +168,7 @@ def one_thread_pmd_v0(repo_path, ruleset_path):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     repo = git.Repo(repo_path)
     root_dir = os.path.dirname(current_dir)
-    commits_hash = get_commits_hash(repo_path)[:100]
+    commits_hash = get_commits_hash(repo_path)
     cache_path = os.path.join(root_dir, "Data", ".pmd_cache")
     # Ensure Data directory exists
     data_dir = os.path.join(root_dir, "Data")
