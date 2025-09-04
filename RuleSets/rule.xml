@@ -3,11 +3,16 @@
          xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
-    <description>
-        Minimal ruleset for testing PMD
-    </description>
+    <description>Quickstart configuration of PMD. Includes the rules that are most likely to apply everywhere.</description>
 
-    <!-- rules -->
+    <!-- <rule ref="category/java/bestpractices.xml/AbstractClassWithoutAbstractMethod" /> -->
+    <!-- <rule ref="category/java/bestpractices.xml/AccessorClassGeneration" /> -->
+    <!-- <rule ref="category/java/bestpractices.xml/AccessorMethodGeneration" /> -->
+    <!-- <rule ref="category/java/bestpractices.xml/ArrayIsStoredDirectly" /> -->
+    <!-- <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" /> -->
+    <!-- <rule ref="category/java/bestpractices.xml/AvoidReassigningCatchVariables" /> -->
+    <!-- <rule ref="category/java/bestpractices.xml/AvoidReassigningLoopVariables" /> -->
+    <!-- <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters" /> -->
     <rule ref="category/java/bestpractices.xml/AvoidMessageDigestField"/>
     <rule ref="category/java/bestpractices.xml/AvoidStringBufferField"/>
     <rule ref="category/java/bestpractices.xml/AvoidUsingHardCodedIP"/>

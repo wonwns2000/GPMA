@@ -3,10 +3,10 @@ import os
 
 violation_sum = {}
 def get_commit_result(commit_results,repo_path):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    root_dir = os.path.dirname(current_dir)
+
+    ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     # Ensure Result directory exists
-    result_dir = os.path.join(root_dir, "Result")
+    result_dir = os.path.join(ROOT_DIR, "Result")
     os.makedirs(result_dir, exist_ok=True)
     global violation_sum
     total_java_files_count = 0
@@ -29,6 +29,6 @@ def get_commit_result(commit_results,repo_path):
         },
         "stat_of_warnings ":  dict(violation_sum)
     }
-    with open(os.path.join(root_dir,"Result", "commit_result.json"), "w") as f:
+    with open(os.path.join(ROOT_DIR,"Result", "commit_result.json"), "w") as f:
         json.dump(result, f, indent=4)
     return

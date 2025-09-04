@@ -1,0 +1,2 @@
+This folder stores PMD cache files to speed up repeated analyses.
+It helps avoid reprocessing unchanged files and improves performance.

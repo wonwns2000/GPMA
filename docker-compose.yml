@@ -1,0 +1,9 @@
+services:
+  gpma:
+    build: .
+    volumes:
+      - ./Data:/app/Data
+      - ./Cache:/app/Cache
+      - ./RuleSets:/app/RuleSets
+      - ./Result:/app/Result
+    tty: true

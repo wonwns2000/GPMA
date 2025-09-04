@@ -1,0 +1,2 @@
+This folder contains the PMD ruleset XML files.
+Users should place their custom rulesets here before running the analysis.

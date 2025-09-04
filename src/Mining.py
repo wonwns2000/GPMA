@@ -12,10 +12,36 @@ import subprocess
 import os
 from pathlib import Path
 import threading
+import sys
 from Models import CommitResult
 
 total_java_files_count = 0
 lock = threading.Lock()
+def check_remote_repo(url):
+    try:
+        subprocess.run(
+            ["git", "ls-remote", url],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=True
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
+def validate_inputs(repo, ruleset):
+    if not os.path.isfile(ruleset):
+        print(f"Ruleset file '{ruleset}' does not exist.")
+        sys.exit(1)
+        # 仓库检查
+    if repo.startswith(("http://", "https://", "git@")):
+        if not check_remote_repo(repo):
+            print(f"Remote repository '{repo}' does not exist or cannot be reached.")
+            sys.exit(1)
+    elif os.path.exists(repo):
+        pass
+    else:
+        print(f"Local path '{repo}' does not exist.")
+        sys.exit(1)
 
 def prepare_repo(repo_input):
     if repo_input.startswith("http://") or repo_input.startswith("https://") or repo_input.startswith("git@"):
@@ -47,16 +73,24 @@ def run_pmd_command(repo_path, ruleset_path, output_path,cache_path):
         "-f", "json",
         "-r", output_path,
         "--cache", cache_path,
-        "--threads", "4"
+        "--threads", "4",
+        "--no-progress"
     ]
-    subprocess.run(cmd,shell=True)
-    end_time = datetime.datetime.now()
-    print(f"Committing took {(end_time-start_time).total_seconds():.2f} seconds")
+    try:
+        subprocess.run(cmd, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"PMD thread error: {e.returncode}, continue anyway")
     
 def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    root_dir = os.path.dirname(current_dir)
-    cache_path = os.path.join(root_dir,"Cache",f".pmdCache{thread_id}")
+    ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    DATA_DIR = os.path.join(ROOT_DIR, "Data")
+    CACHE_DIR = os.path.join(ROOT_DIR, "Cache")
+
+    os.makedirs(DATA_DIR, exist_ok=True)
+    os.makedirs(CACHE_DIR, exist_ok=True)
+
+
+    cache_path = os.path.join(CACHE_DIR, f".pmdCache{thread_id}")
     
     # Ensure Data directory exists
     # os.makedirs(data_dir, exist_ok=True)
@@ -64,7 +98,7 @@ def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
     
     #Copy the repo
     thread_dir = os.path.join(temp_repo_dir,f".thread{thread_id}")
-
+    os.makedirs(thread_dir, exist_ok=True)
     subprocess.run(
         ["git", "clone", "--local", repo_path, thread_dir],
         check=True,
@@ -82,7 +116,8 @@ def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
             java_files_total = 0
             warning_total = 0
             filename = f"{commit_hash}.json"
-            output_path = os.path.join(root_dir, "Data", filename)
+            output_path = os.path.join(DATA_DIR, filename)
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
             java_files_total+= len(list(Path(thread_dir).rglob("*.java")))
             run_pmd_command(thread_dir,ruleset_path,output_path,cache_path)
             with open(output_path, "r", encoding="utf-8") as f:
@@ -98,10 +133,19 @@ def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
         print(f"thread_{thread_id} thread error as {e}")
         
     return commit_results
+def split_list(commits_hash,n):
+    k, m = divmod(len(commits_hash), n)
+    chunks = []
+    start = 0
+    for i in range(n):
+        end = start + k + (1 if i < m else 0)
+        chunks.append(commits_hash[start:end])
+        start = end
+    return chunks
 
 def multi_thread_pmd(repo_path,ruleset_path,max_threads=8):
     commits_hash = get_commits_hash(repo_path)[:100]
-    commit_chunks = [commits_hash[i::max_threads] for i in range(max_threads)]
+    commit_chunks = split_list(commits_hash,max_threads)
     all_results = []
     with tempfile.TemporaryDirectory(prefix="repo_temp_") as temp_repo_dir:
         with ThreadPoolExecutor(max_workers=max_threads) as executor:

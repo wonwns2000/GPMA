@@ -5,23 +5,30 @@
 import json
 import os
 import shutil
-
-import git
+import argparse
 import datetime
 import Mining
 import Summary
+import sys
+import subprocess
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run PMD analysis")
+    parser.add_argument("--repo", required=True, help="Repository URL or local path")
+    parser.add_argument("--ruleset", required=True, help="Ruleset XML file path")
+    parser.add_argument("--threads", type=int, default=4)
+    return parser.parse_args()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
 
 def main():
 
     # input repository_path
-    input_repo = "https://github.com/apache/commons-lang.git"
-    # ruleset_path
-    ruleset_path = r'./Rulesets/rule.xml'
+    args = parse_args()
+    input_repo = args.repo
+    ruleset_path = args.ruleset
+    max_threads = args.threads
+    Mining.validate_inputs(input_repo, ruleset_path)
     # prepare temp repository
     repo_path, is_temp = Mining.prepare_repo(input_repo)
     # Mining.thread_analysis(repo_path, ruleset_path,commits_hash,cache_path)
@@ -30,8 +37,8 @@ def main():
         start_time = datetime.datetime.now()
         print("Start PMD analysis")
         #result = Mining.one_thread_pmd_v0(repo_path, ruleset_path)
-        result = Mining.multi_thread_pmd(repo_path, ruleset_path, max_threads=4)
-        Summary.get_commit_result(result, repo_path)
+        result = Mining.multi_thread_pmd(repo_path, ruleset_path, max_threads)
+        Summary.get_commit_result(result, input_repo)
         end_time = datetime.datetime.now()
         elapsed_time = end_time - start_time
         print(f"Total time : {elapsed_time.total_seconds():.2f} seconds")
