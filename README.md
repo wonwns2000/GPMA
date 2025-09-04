@@ -43,11 +43,15 @@ GPMA/
 │   └── Models.py  # Defines data structures such as CommitResult 
 └── README.md
 
-Getting Started
 1. Clone repository
-   git clone https://github.com/won/GPMA.git
+git clone https://github.com/<your-account>/GPMA.git
+cd GPMA
 
-3. 
+2. Build the Docker image
+docker compose build
+
+3. Run analysis
+docker compose run gpma --repo https://github.com/apache/commons-lang.git --ruleset /app/RuleSets/rule.xml
 
 
 
