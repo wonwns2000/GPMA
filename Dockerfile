@@ -5,14 +5,14 @@ FROM openjdk:17-slim AS jdk
 FROM python:3.10-slim
 LABEL authors="wonwns"
 
-# Copy JDK 
+# Copy JDK
 COPY --from=jdk /usr/local/openjdk-17 /usr/local/openjdk-17
 
 # Setting JAVA PATH
 ENV JAVA_HOME=/usr/local/openjdk-17
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-# Get  wget unzip 
+# Get  wget unzip
 RUN apt-get update && apt-get install -y wget unzip curl \
     && rm -rf /var/lib/apt/lists/*
 # Get git

@@ -47,17 +47,17 @@ GPMA/
 
 # Geting Started
 
--1. Clone Repository
--git clone https://github.com/<your-account>/GPMA.git 
+1. Clone Repository
+- git clone https://github.com/<your-account>/GPMA.git 
 
--2. Build Docker Image
--docker compose build
+2. Build Docker Image
+- docker compose build
 
--3. Run Analysis
--docker-compose run gpma --repo {Repository Location} --ruleset /app/RuleSets/rule.xml
+3. Run Analysis
+- 1. docker-compose run gpma --repo {Repository Location} --ruleset /app/RuleSets/rule.xml
 
--Example:
--docker-compose run gpma --repo https://github.com/apache/commons-lang.git --ruleset /app/RuleSets/rule.xml
+Example:
+- docker-compose run gpma --repo https://github.com/apache/commons-lang.git --ruleset /app/RuleSets/rule.xml
 
 ## Output
 

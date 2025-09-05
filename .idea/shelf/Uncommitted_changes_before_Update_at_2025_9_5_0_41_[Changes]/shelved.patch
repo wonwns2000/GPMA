@@ -1,0 +1,138 @@
+Index: Dockerfile
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># 第一阶段：只拿 JDK\r\nFROM openjdk:17-slim AS jdk\r\n\r\n# 第二阶段：Python + JDK\r\nFROM python:3.10-slim\r\nLABEL authors=\"wonwns\"\r\n\r\n# 拷贝 JDK 过来\r\nCOPY --from=jdk /usr/local/openjdk-17 /usr/local/openjdk-17\r\n\r\n# 设置环境变量\r\nENV JAVA_HOME=/usr/local/openjdk-17\r\nENV PATH=$JAVA_HOME/bin:$PATH\r\n\r\n# 装 wget unzip 等\r\nRUN apt-get update && apt-get install -y wget unzip curl \\\r\n    && rm -rf /var/lib/apt/lists/*\r\n# 安装git\r\nRUN apt-get update && apt-get install -y git \\\r\n    && rm -rf /var/lib/apt/lists/*\r\n# 下载并解压 PMD\r\nWORKDIR /opt/PMD\r\nRUN wget -q https://github.com/pmd/pmd/releases/download/pmd_releases/7.16.0/pmd-dist-7.16.0-bin.zip \\\r\n    && unzip pmd-dist-7.16.0-bin.zip \\\r\n    && rm pmd-dist-7.16.0-bin.zip\r\n\r\n# 设置 PMD\r\nENV PMD_HOME=/opt/PMD/pmd-bin-7.16.0\r\nENV PATH=$PMD_HOME/bin:$JAVA_HOME/bin:$PATH\r\n\r\n# 应用代码\r\nWORKDIR /app\r\nCOPY Requirements.txt .\r\nRUN pip install --no-cache-dir -r Requirements.txt\r\nCOPY . .\r\n\r\nRUN pmd --version\r\nENTRYPOINT [\"python\", \"src/main.py\"]
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Dockerfile b/Dockerfile
+--- a/Dockerfile	(revision 74ac846a8abe553e060d6aedf116a2bdc2264306)
++++ b/Dockerfile	(date 1757003942814)
+@@ -1,38 +1,38 @@
+-# 第一阶段：只拿 JDK
++# Get JDK
+ FROM openjdk:17-slim AS jdk
+ 
+-# 第二阶段：Python + JDK
++# Get Python
+ FROM python:3.10-slim
+ LABEL authors="wonwns"
+ 
+-# 拷贝 JDK 过来
++# Copy JDK 
+ COPY --from=jdk /usr/local/openjdk-17 /usr/local/openjdk-17
+ 
+-# 设置环境变量
++# Setting JAVA PATH
+ ENV JAVA_HOME=/usr/local/openjdk-17
+ ENV PATH=$JAVA_HOME/bin:$PATH
+ 
+-# 装 wget unzip 等
++# Get  wget unzip 
+ RUN apt-get update && apt-get install -y wget unzip curl \
+     && rm -rf /var/lib/apt/lists/*
+-# 安装git
++# Get git
+ RUN apt-get update && apt-get install -y git \
+     && rm -rf /var/lib/apt/lists/*
+-# 下载并解压 PMD
++# Get PMD
+ WORKDIR /opt/PMD
+ RUN wget -q https://github.com/pmd/pmd/releases/download/pmd_releases/7.16.0/pmd-dist-7.16.0-bin.zip \
+     && unzip pmd-dist-7.16.0-bin.zip \
+     && rm pmd-dist-7.16.0-bin.zip
+ 
+-# 设置 PMD
++# Setting PMD PATH
+ ENV PMD_HOME=/opt/PMD/pmd-bin-7.16.0
+ ENV PATH=$PMD_HOME/bin:$JAVA_HOME/bin:$PATH
+ 
+-# 应用代码
++# Get Project
+ WORKDIR /app
+ COPY Requirements.txt .
+ RUN pip install --no-cache-dir -r Requirements.txt
+ COPY . .
+ 
+ RUN pmd --version
+-ENTRYPOINT ["python", "src/main.py"]
+\ No newline at end of file
++ENTRYPOINT ["python", "src/main.py"]
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># GPMA (Git PMD Mining Analysis)\r\n\r\nGPMA is a Git commit history analysis tool that leverages **PMD** for static code analysis on every commit of a GitHub repository.  \r\nIt automatically collects warnings (violations) across commits, summarizes results, and optimizes performance with parallel execution.\r\n\r\n---\r\n\r\n## Features\r\n\r\n### Repository-wide commit analysis\r\n- Runs PMD checks on every commit of a Git repository.\r\n\r\n### Parallelization for speed\r\n- **Outer level:** Commits are split into chunks per thread.  \r\n- **Inner level:** Each PMD process runs with internal `--threads -n`.  \r\n- Each thread has its own cache directory (`Cache/.pmdCache{thread_id}`), which avoids contention and speeds up repeated analysis.\r\n\r\n### Performance\r\nFor large repositories (e.g., [apache/commons-lang](https://github.com/apache/commons-lang), ~9000 commits, 10 rules),  \r\nGPMA achieves **< 1.0s per commit** throughput.\r\n\r\n### Result organization\r\n- `./Data/` → JSON file per commit  \r\n- `./Result/` → Aggregated summary result  \r\n- `./Cache/` → Thread-specific PMD cache folders\r\n\r\n---\r\n### Project Structure\r\n\r\n```text\r\nGPMA/\r\n├── Data/          # One JSON per commit (PMD analysis output)\r\n├── Cache/         # Contains .pmdCache{thread_id} for faster PMD runs\r\n├── RuleSets/      # Place your rule.xml here\r\n├── Result/        # Aggregated summary results\r\n├── docker-compose.yml\r\n├── Dockerfile\r\n├── Requirements.txt\r\n├── src/\r\n│   ├── main.py    # Entry point: handles CLI arguments and coordinates the analysis workflow\r\n│   ├── Mining.py  # Handles Git repository cloning, commit splitting, and multi-threaded PMD execution\r\n│   ├── Summary.py # Aggregates per-commit JSON results and generates summary statistics\r\n│   └── Models.py  # Defines data structures such as CommitResult\r\n└── README.md\r\n```\r\n\r\n\r\n# Geting Started\r\n\r\n-1. Clone Repository\r\n-git clone https://github.com/<your-account>/GPMA.git \r\n\r\n-2. Build Docker Image\r\n-docker compose build\r\n\r\n-3. Run Analysis\r\n-docker-compose run gpma --repo {Repository Location} --ruleset /app/RuleSets/rule.xml\r\n\r\n-Example:\r\n-docker-compose run gpma --repo https://github.com/apache/commons-lang.git --ruleset /app/RuleSets/rule.xml\r\n\r\n## Output\r\n\r\n- **Per-commit JSON results** → `./Data/`  \r\n  Example: `./Data/<commit_hash>.json`\r\n\r\n- **Summary report** → `./Result/`\r\n\r\n- **PMD cache** → `./Cache/`\r\n\r\n---\r\n\r\n## Requirements\r\n\r\n- [Docker Desktop](https://www.docker.com/products/docker-desktop) (Linux, macOS, Windows)  \r\n- GitHub repository access\r\n\r\n---\r\n\r\n## Notes\r\n\r\n- `docker-compose.yml` already mounts `Data`, `Cache`, `RuleSets`, and `Result`, so results are directly available on the host machine.  \r\n- Ensure you put your `rule.xml` inside `./RuleSets/` before running.  \r\n- PMD CLI reference: [PMD Docs](https://docs.pmd-code.org/pmd-doc-7.16.0/pmd_userdocs_cli_reference.html)\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision 74ac846a8abe553e060d6aedf116a2bdc2264306)
++++ b/README.md	(date 1757003966588)
+@@ -85,4 +85,3 @@
+ 
+ 
+ 
+-
+Index: src/Mining.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import json\r\nimport tempfile\r\nimport time\r\nfrom concurrent.futures import ThreadPoolExecutor\r\nfrom tempfile import TemporaryDirectory\r\nfrom typing import Any\r\n\r\nimport git\r\nimport datetime\r\nimport git.exc\r\nimport subprocess\r\nimport os\r\nfrom pathlib import Path\r\nimport threading\r\nimport sys\r\nfrom Models import CommitResult\r\n\r\ntotal_java_files_count = 0\r\nlock = threading.Lock()\r\ndef check_remote_repo(url):\r\n    try:\r\n        subprocess.run(\r\n            [\"git\", \"ls-remote\", url],\r\n            stdout=subprocess.DEVNULL,\r\n            stderr=subprocess.DEVNULL,\r\n            check=True\r\n        )\r\n        return True\r\n    except subprocess.CalledProcessError:\r\n        return False\r\ndef validate_inputs(repo, ruleset):\r\n    if not os.path.isfile(ruleset):\r\n        print(f\"Ruleset file '{ruleset}' does not exist.\")\r\n        sys.exit(1)\r\n        # 仓库检查\r\n    if repo.startswith((\"http://\", \"https://\", \"git@\")):\r\n        if not check_remote_repo(repo):\r\n            print(f\"Remote repository '{repo}' does not exist or cannot be reached.\")\r\n            sys.exit(1)\r\n    elif os.path.exists(repo):\r\n        pass\r\n    else:\r\n        print(f\"Local path '{repo}' does not exist.\")\r\n        sys.exit(1)\r\n\r\ndef prepare_repo(repo_input):\r\n    if repo_input.startswith(\"http://\") or repo_input.startswith(\"https://\") or repo_input.startswith(\"git@\"):\r\n        temp_dir = tempfile.mkdtemp(prefix=\"repo_clone_\")\r\n        print(f\"Cloning {repo_input} to {temp_dir} ...\")\r\n        git.Repo.clone_from(repo_input, temp_dir)\r\n        return temp_dir, True  \r\n    else:\r\n        if not os.path.exists(repo_input):\r\n            raise FileNotFoundError(f\"Local repo path {repo_input} does not exist.\")\r\n        return repo_input, False\r\n\r\ndef get_commits_hash(filepath,branch = \"--all\"):\r\n    commits_hash = []\r\n    repo = git.Repo(filepath)\r\n    for commit in repo.iter_commits(branch):\r\n        commits_hash.append(commit.hexsha)\r\n    #print(\"commit_amt\",len(commits_hash))\r\n    return commits_hash\r\n\r\ndef run_pmd_command(repo_path, ruleset_path, output_path,cache_path):\r\n    start_time = datetime.datetime.now()\r\n    cache_path = os.path.join(cache_path, \"pmdCache\")\r\n    cmd = [\r\n        \"pmd\" ,\r\n        \"check\",\r\n        \"-d\", repo_path,\r\n        \"-R\", ruleset_path,\r\n        \"-f\", \"json\",\r\n        \"-r\", output_path,\r\n        \"--cache\", cache_path,\r\n        \"--threads\", \"4\",\r\n        \"--no-progress\"\r\n    ]\r\n    try:\r\n        subprocess.run(cmd, check=True)\r\n    except subprocess.CalledProcessError as e:\r\n        print(f\"PMD thread error: {e.returncode}, continue anyway\")\r\n    \r\ndef one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):\r\n    ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), \"..\"))\r\n    DATA_DIR = os.path.join(ROOT_DIR, \"Data\")\r\n    CACHE_DIR = os.path.join(ROOT_DIR, \"Cache\")\r\n\r\n    os.makedirs(DATA_DIR, exist_ok=True)\r\n    os.makedirs(CACHE_DIR, exist_ok=True)\r\n\r\n\r\n    cache_path = os.path.join(CACHE_DIR, f\".pmdCache{thread_id}\")\r\n    \r\n    # Ensure Data directory exists\r\n    # os.makedirs(data_dir, exist_ok=True)\r\n    # data_dir = os.path.join(root_dir, \"Data\")\r\n    \r\n    #Copy the repo\r\n    thread_dir = os.path.join(temp_repo_dir,f\".thread{thread_id}\")\r\n    os.makedirs(thread_dir, exist_ok=True)\r\n    subprocess.run(\r\n        [\"git\", \"clone\", \"--local\", repo_path, thread_dir],\r\n        check=True,\r\n        stdout=subprocess.DEVNULL,\r\n        stderr=subprocess.DEVNULL\r\n    )\r\n    #repo = git.Repo(thread_dir)\r\n    commit_results=[]\r\n    try:\r\n        for commit_hash in commits_hash:\r\n            subprocess.run([\"git\", \"-C\", thread_dir, \"checkout\", \"-f\", commit_hash],\r\n                           check=True,\r\n                           stdout=subprocess.DEVNULL,\r\n                           stderr=subprocess.DEVNULL)\r\n            java_files_total = 0\r\n            warning_total = 0\r\n            filename = f\"{commit_hash}.json\"\r\n            output_path = os.path.join(DATA_DIR, filename)\r\n            os.makedirs(os.path.dirname(output_path), exist_ok=True)\r\n            java_files_total+= len(list(Path(thread_dir).rglob(\"*.java\")))\r\n            run_pmd_command(thread_dir,ruleset_path,output_path,cache_path)\r\n            with open(output_path, \"r\", encoding=\"utf-8\") as f:\r\n                result = json.load(f)\r\n            for f in result[\"files\"]:\r\n                warning_total += len(f[\"violations\"])\r\n            commit_result = CommitResult(commit_hash, warning_total, java_files_total)\r\n            for files in result[\"files\"]:\r\n                for violation in files[\"violations\"]:\r\n                    commit_result.add_violation(violation[\"rule\"])\r\n            commit_results.append(commit_result)\r\n    except Exception as e:\r\n        print(f\"thread_{thread_id} thread error as {e}\")\r\n        \r\n    return commit_results\r\ndef split_list(commits_hash,n):\r\n    k, m = divmod(len(commits_hash), n)\r\n    chunks = []\r\n    start = 0\r\n    for i in range(n):\r\n        end = start + k + (1 if i < m else 0)\r\n        chunks.append(commits_hash[start:end])\r\n        start = end\r\n    return chunks\r\n\r\ndef multi_thread_pmd(repo_path,ruleset_path,max_threads=4):\r\n    commits_hash = get_commits_hash(repo_path)\r\n    commit_chunks = split_list(commits_hash,max_threads)\r\n    all_results = []\r\n    with tempfile.TemporaryDirectory(prefix=\"repo_temp_\") as temp_repo_dir:\r\n        with ThreadPoolExecutor(max_workers=max_threads) as executor:\r\n            futures = []\r\n            for thread_id,commit_chunk in enumerate(commit_chunks):\r\n                if not commit_chunk:\r\n                    continue\r\n                futures.append(executor.submit(one_thread_pmd, commit_chunk,repo_path,ruleset_path,thread_id,temp_repo_dir))\r\n            for future in futures:\r\n                result = future.result()\r\n                all_results.extend(result)\r\n    return all_results\r\n\r\n\r\n\r\n\r\n\r\n\r\ndef one_thread_pmd_v0(repo_path, ruleset_path):\r\n    current_dir = os.path.dirname(os.path.abspath(__file__))\r\n    repo = git.Repo(repo_path)\r\n    root_dir = os.path.dirname(current_dir)\r\n    commits_hash = get_commits_hash(repo_path)[:100]\r\n    cache_path = os.path.join(root_dir, \"Data\", \".pmd_cache\")\r\n    # Ensure Data directory exists\r\n    data_dir = os.path.join(root_dir, \"Data\")\r\n    os.makedirs(data_dir, exist_ok=True)\r\n    commit_results = []\r\n\r\n    for commit_hash in commits_hash:\r\n        java_files_total = 0\r\n        warning_total = 0\r\n        filename = f\"{commit_hash}.json\"\r\n        repo.git.checkout(commit_hash)\r\n        output_path = os.path.join(root_dir, \"Data\", filename)\r\n        java_files = list(Path(repo_path).rglob(\"*.java\"))\r\n        java_files_total+= len(java_files)\r\n        run_pmd_command(repo_path, ruleset_path, output_path,cache_path)\r\n        result = json.load(open(output_path))\r\n        for f in result[\"files\"]:\r\n            warning_total += len(f[\"violations\"])\r\n        commit_result = CommitResult(commit_hash,warning_total,java_files_total)\r\n        for files in result[\"files\"]:\r\n            for violation in files[\"violations\"]:\r\n                commit_result.add_violation(violation[\"rule\"])\r\n        commit_results.append(commit_result)\r\n        #commit_result.output()\r\n\r\n    return commit_results\r\n\r\n\r\n\r\n\r\n#\r\n# def copy_java_files(repo_path,commit_hash,temp_dir):\r\n#     repo = git.Repo(repo_path)\r\n#     commit = repo.commit(commit_hash)\r\n#     repo.git.worktree(\"add\",\"-f\",temp_dir,commit_hash)\r\n# def thread_analysis_java_files(ruleset_path,repo_path,commit_hash,temp_worktree,cache_path):\r\n#     # Prepare PMD analysis\r\n#     current_dir = os.path.dirname(os.path.abspath(__file__))\r\n#     root_dir = os.path.dirname(current_dir)\r\n#     filename = f\"{commit_hash}.json\"\r\n#     output_path = os.path.join(root_dir, \"Data\", filename)\r\n#     try:\r\n#         copy_java_files(repo_path,commit_hash,temp_worktree)\r\n#         if os.path.exists(output_path):\r\n#             print(f\"Skipping commit {commit_hash[:7]}, JSON already exists.\")\r\n#             return\r\n#         #start PMD analysis\r\n#         with lock:\r\n#             run_pmd_command(temp_worktree, ruleset_path, output_path,cache_path)\r\n#         try:\r\n#             if os.path.exists(temp_worktree):\r\n#                 shutil.rmtree(temp_worktree)\r\n#         except Exception as e:\r\n#             print(f\"Error cleaning up worktree for commit {commit_hash[:7]}: {e}\")\r\n#     except Exception as e:\r\n#         print(\"Copy file error: \",e)\r\n#\r\n# def thread_analysis(repo_path, ruleset_path,commits_hash,cache_path,max_threads = 10):\r\n#     print(f\"Commit hash:\",commits_hash)\r\n#     temp_worktrees = []\r\n#     for commit_hash in commits_hash:\r\n#         temp_worktree = tempfile.mkdtemp(prefix=f\"tempdir_{commit_hash[:7]}\")\r\n#         temp_worktrees.append((commit_hash,temp_worktree))\r\n#     with ThreadPoolExecutor(max_workers=max_threads) as executor:\r\n#         for commit_hash,temp_worktree in temp_worktrees:\r\n#             executor.submit(thread_analysis_java_files,ruleset_path,repo_path,commit_hash,temp_worktree,cache_path)\r\n#     print(\"PMD Analysis complete!\")\r\n#\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Mining.py b/src/Mining.py
+--- a/src/Mining.py	(revision 74ac846a8abe553e060d6aedf116a2bdc2264306)
++++ b/src/Mining.py	(date 1757004092204)
+@@ -32,7 +32,7 @@
+     if not os.path.isfile(ruleset):
+         print(f"Ruleset file '{ruleset}' does not exist.")
+         sys.exit(1)
+-        # 仓库检查
++        # Check Repo
+     if repo.startswith(("http://", "https://", "git@")):
+         if not check_remote_repo(repo):
+             print(f"Remote repository '{repo}' does not exist or cannot be reached.")
+@@ -74,7 +74,6 @@
+         "-r", output_path,
+         "--cache", cache_path,
+         "--threads", "4",
+-        "--no-progress"
+     ]
+     try:
+         subprocess.run(cmd, check=True)
+@@ -168,7 +167,7 @@
+     current_dir = os.path.dirname(os.path.abspath(__file__))
+     repo = git.Repo(repo_path)
+     root_dir = os.path.dirname(current_dir)
+-    commits_hash = get_commits_hash(repo_path)[:100]
++    commits_hash = get_commits_hash(repo_path)
+     cache_path = os.path.join(root_dir, "Data", ".pmd_cache")
+     # Ensure Data directory exists
+     data_dir = os.path.join(root_dir, "Data")
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"9c8f8a41-537c-4121-b533-392f527bf56f\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/README.md\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/README.md\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Mining.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Mining.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Dockerfile\" />\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 7\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"31uzFHVxvx0lF9Vbi4IxhGwbidA\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Docker.Dockerfile (1).executor\": \"Run\",\r\n    \"Docker.Dockerfile.executor\": \"Run\",\r\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\r\n    \"Python.main.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\",\r\n    \"last_opened_file_path\": \"D:/Projects/GPMA\",\r\n    \"settings.editor.selected.configurable\": \"terminal\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\Projects\\GPMA\\src\" />\r\n      <recent name=\"D:\\Projects\\GPMA\\test\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Docker.Dockerfile\">\r\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"GPMA\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"D:\\Projects\\GPMA\\src\\main.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Dockerfile (1)\" type=\"docker-deploy\" factoryName=\"dockerfile\" temporary=\"true\" server-name=\"Docker2\">\r\n      <deployment type=\"dockerfile\">\r\n        <settings>\r\n          <option name=\"sourceFilePath\" value=\"Dockerfile\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Dockerfile\" type=\"docker-deploy\" factoryName=\"dockerfile\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"dockerfile\">\r\n        <settings>\r\n          <option name=\"containerName\" value=\"\" />\r\n          <option name=\"sourceFilePath\" value=\"Dockerfile\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"docker-deploy\" factoryName=\"dockerfile\" temporary=\"true\">\r\n      <deployment type=\"dockerfile\">\r\n        <settings />\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.main\" />\r\n        <item itemvalue=\"Docker.Dockerfile (1)\" />\r\n        <item itemvalue=\"Docker.Dockerfile\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-7e47963ff851-f0eec537fc84-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.23892.515\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"9c8f8a41-537c-4121-b533-392f527bf56f\" name=\"Changes\" comment=\"\" />\r\n      <created>1756388641405</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1756388641405</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <watches-manager>\r\n      <configuration name=\"PythonConfigurationType\">\r\n        <watch expression=\"commit_hash\" language=\"Python\" />\r\n      </configuration>\r\n    </watches-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 74ac846a8abe553e060d6aedf116a2bdc2264306)
++++ b/.idea/workspace.xml	(date 1757003988141)
+@@ -6,6 +6,7 @@
+   <component name="ChangeListManager">
+     <list default="true" id="9c8f8a41-537c-4121-b533-392f527bf56f" name="Changes" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/Mining.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mining.py" afterDir="false" />
+     </list>
+@@ -48,7 +49,7 @@
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+     "RunOnceActivity.git.unshallow": "true",
+-    "git-widget-placeholder": "main",
++    "git-widget-placeholder": "Merging main",
+     "ignore.virus.scanning.warn.message": "true",
+     "last_opened_file_path": "D:/Projects/GPMA",
+     "settings.editor.selected.configurable": "terminal"
