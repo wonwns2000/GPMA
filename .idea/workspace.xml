@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9c8f8a41-537c-4121-b533-392f527bf56f" name="Changes" comment="delete no progress">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Explain.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/Result/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/Explain.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Result/Explain.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
