@@ -20,12 +20,12 @@ RUN apt-get update && apt-get install -y git \
     && rm -rf /var/lib/apt/lists/*
 # Get PMD
 WORKDIR /opt/PMD
-RUN wget -q https://github.com/pmd/pmd/releases/download/pmd_releases/7.16.0/pmd-dist-7.16.0-bin.zip \
-    && unzip pmd-dist-7.16.0-bin.zip \
-    && rm pmd-dist-7.16.0-bin.zip
+RUN wget -q https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.17.0/pmd-dist-7.17.0-bin.zip \
+    && unzip pmd-dist-7.17.0-bin.zip \
+    && rm pmd-dist-7.17.0-bin.zip
 
 # Setting PMD PATH
-ENV PMD_HOME=/opt/PMD/pmd-bin-7.16.0
+ENV PMD_HOME=/opt/PMD/pmd-bin-7.17.0
 ENV PATH=$PMD_HOME/bin:$JAVA_HOME/bin:$PATH
 
 # Get Project

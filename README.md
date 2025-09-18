@@ -47,16 +47,16 @@ GPMA/
 
 # Geting Started
 
-1. Clone Repository
+- 1. Clone Repository
 - git clone https://github.com/<your-account>/GPMA.git 
 
-2. Build Docker Image
+- 2. Build Docker Image
 - docker compose build
 
-3. Run Analysis
-- 1. docker-compose run gpma --repo {Repository Location} --ruleset /app/RuleSets/rule.xml
+- 3. Run Analysis
+- docker-compose run gpma --repo {Repository Location} --ruleset /app/RuleSets/rule.xml
 
-Example:
+- Example:
 - docker-compose run gpma --repo https://github.com/apache/commons-lang.git --ruleset /app/RuleSets/rule.xml
 
 ## Output
@@ -82,6 +82,6 @@ Example:
 - `docker-compose.yml` already mounts `Data`, `Cache`, `RuleSets`, and `Result`, so results are directly available on the host machine.  
 - Ensure you put your `rule.xml` inside `./RuleSets/` before running.  
 - PMD CLI reference: [PMD Docs](https://docs.pmd-code.org/pmd-doc-7.16.0/pmd_userdocs_cli_reference.html)
-
+- Performance may vary depending on the CPU model.
 
 

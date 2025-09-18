@@ -1,3 +1,4 @@
+import glob
 import json
 import tempfile
 import time
@@ -14,9 +15,20 @@ from pathlib import Path
 import threading
 import sys
 from Models import CommitResult
-
+import xml.etree.ElementTree as ET
 total_java_files_count = 0
 lock = threading.Lock()
+def replace_pmd_baseurl_in_ruleset_inplace(ruleset_path, new_url):
+    
+    with open(ruleset_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    content_fixed = content.replace("${pmd.website.baseurl}", new_url)
+
+    with open(ruleset_path, "w", encoding="utf-8") as f:
+        f.write(content_fixed)
+
+    print(f"Ruleset {ruleset_path} updated with pmd.website.baseurl = {new_url}")
 def check_remote_repo(url):
     try:
         subprocess.run(
@@ -62,11 +74,14 @@ def get_commits_hash(filepath,branch = "--all"):
     #print("commit_amt",len(commits_hash))
     return commits_hash
 
-def run_pmd_command(repo_path, ruleset_path, output_path,cache_path):
+def run_pmd_command(repo_path, ruleset_path, output_path, cache_path):
+    import datetime
     start_time = datetime.datetime.now()
     cache_path = os.path.join(cache_path, "pmdCache")
+    
+
     cmd = [
-        "pmd" ,
+        "pmd",
         "check",
         "-d", repo_path,
         "-R", ruleset_path,
@@ -75,10 +90,14 @@ def run_pmd_command(repo_path, ruleset_path, output_path,cache_path):
         "--cache", cache_path,
         "--threads", "4"
     ]
+    
     try:
         subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
-        print(f"PMD thread error: {e.returncode}, continue anyway")
+        if e.returncode == 4:     
+            print(f"PMD detected violations (exit code {e.returncode}), continue anyway")
+        else:
+            print(f"PMD error (exit code {e.returncode}), continue anyway")
     
 def one_thread_pmd(commits_hash,repo_path,ruleset_path,thread_id,temp_repo_dir):
     ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -143,7 +162,7 @@ def split_list(commits_hash,n):
     return chunks
 
 def multi_thread_pmd(repo_path,ruleset_path,max_threads=4):
-    commits_hash = get_commits_hash(repo_path)
+    commits_hash = get_commits_hash(repo_path)[:50]
     commit_chunks = split_list(commits_hash,max_threads)
     all_results = []
     with tempfile.TemporaryDirectory(prefix="repo_temp_") as temp_repo_dir:
