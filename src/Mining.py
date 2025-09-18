@@ -162,7 +162,7 @@ def split_list(commits_hash,n):
     return chunks
 
 def multi_thread_pmd(repo_path,ruleset_path,max_threads=4):
-    commits_hash = get_commits_hash(repo_path)[:50]
+    commits_hash = get_commits_hash(repo_path)
     commit_chunks = split_list(commits_hash,max_threads)
     all_results = []
     with tempfile.TemporaryDirectory(prefix="repo_temp_") as temp_repo_dir:
