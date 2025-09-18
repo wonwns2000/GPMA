@@ -88,13 +88,14 @@ def run_pmd_command(repo_path, ruleset_path, output_path, cache_path):
         "-f", "json",
         "-r", output_path,
         "--cache", cache_path,
-        "--threads", "4"
+        "--threads", "4",
+        "--no-progress"
     ]
     
     try:
         subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
-        if e.returncode == 4:     
+        if e.returncode == 4 or e.returncode == 5:
             print(f"PMD detected violations (exit code {e.returncode}), continue anyway")
         else:
             print(f"PMD error (exit code {e.returncode}), continue anyway")
