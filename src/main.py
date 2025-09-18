@@ -28,7 +28,7 @@ def main():
     input_repo = args.repo
     ruleset_path = args.ruleset
     max_threads = args.threads
-    Mining.replace_pmd_baseurl_in_ruleset_inplace(ruleset_path, "https://pmd.sourceforge.io")
+    Mining.replace_pmd_baseurl_in_ruleset_inplace(ruleset_path, "https://pmd.github.io/pmd")
     Mining.validate_inputs(input_repo, ruleset_path)
     # prepare temp repository
     repo_path, is_temp = Mining.prepare_repo(input_repo)

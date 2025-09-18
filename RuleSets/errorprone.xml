@@ -14,7 +14,7 @@ Rules to detect constructs that are either broken, extremely confusing or prone 
           since="1.03"
           message="Avoid assignment to {0} in operand"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.AssignmentInOperandRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#assignmentinoperand">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#assignmentinoperand">
         <description>
 Avoid assignments in operands; this can make code more complicated and harder to read.
         </description>
@@ -36,7 +36,7 @@ public void bar() {
           since="2.2"
           message="Possible unsafe assignment to non-final static field ''{0}'' in a constructor."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.AssignmentToNonFinalStaticRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#assignmenttononfinalstatic">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#assignmenttononfinalstatic">
         <description>
 Identifies a possible unsafe usage of a static field.
         </description>
@@ -58,7 +58,7 @@ public class StaticField {
           since="4.1"
           message="You should not modify visibility of constructors, methods or fields using setAccessible()"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidaccessibilityalteration">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidaccessibilityalteration">
         <description>
 Methods such as `getDeclaredConstructors()`, `getDeclaredMethods()`, and `getDeclaredFields()` also
 return private constructors, methods and fields. These can be made accessible by calling `setAccessible(true)`.
@@ -136,7 +136,7 @@ public class Violation {
           since="3.4"
           message="Avoid using assert as an identifier; it became a reserved word in JDK 1.4"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidassertasidentifier">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidassertasidentifier">
         <description>
 Use of the term `assert` will conflict with newer versions of Java since it is a reserved word.
 
@@ -166,7 +166,7 @@ public class A {
           since="5.0"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.AvoidBranchingStatementAsLastInLoopRule"
           message="Avoid using a branching statement as the last in a loop."
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidbranchingstatementaslastinloop">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidbranchingstatementaslastinloop">
         <description>
 Using a branching statement as the last part of a loop may be a bug, and/or is confusing.
 Ensure that the usage is not a bug, or consider using another approach.
@@ -197,7 +197,7 @@ for (int i = 0; i < 10; i++) {
           since="3.0"
           message="Avoid calling finalize() explicitly"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidcallingfinalize">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidcallingfinalize">
         <description>
 The method Object.finalize() is called by the garbage collector on an object when garbage collection determines
 that there are no more references to the object. It should not be invoked by application logic.
@@ -231,7 +231,7 @@ void foo() {
           since="1.8"
           message="Avoid catching NullPointerException; consider removing the cause of the NPE."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidcatchingnpe">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidcatchingnpe">
         <description>
 Code should never throw NullPointerExceptions under normal circumstances.  A catch block may hide the
 original error, causing other, more subtle problems later on.
@@ -265,7 +265,7 @@ public class Foo {
           since="1.2"
           message="A catch statement should never catch throwable since it includes errors."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidcatchingthrowable">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidcatchingthrowable">
         <description>
 Catching Throwable errors is not recommended since its scope is very broad. It includes runtime issues such as
 OutOfMemoryError that should be exposed and managed separately.
@@ -296,7 +296,7 @@ public void bar() {
           since="3.4"
           message="Avoid creating BigDecimal with a decimal (float/double) literal. Use a String literal"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoiddecimalliteralsinbigdecimalconstructor">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoiddecimalliteralsinbigdecimalconstructor">
         <description>
 One might assume that the result of "new BigDecimal(0.1)" is exactly equal to 0.1, but it is actually
 equal to .1000000000000000055511151231257827021181583404541015625.
@@ -334,7 +334,7 @@ BigDecimal bd = new BigDecimal(12);          // preferred approach, ok for integ
           since="1.0"
           message="The String literal {0} appears {1} times in this file; the first occurrence is on line {2}"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.AvoidDuplicateLiteralsRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidduplicateliterals">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidduplicateliterals">
         <description>
 Code containing duplicate String literals can usually be improved by declaring the String as a constant field.
         </description>
@@ -358,7 +358,7 @@ private void buz(String x) {}
           since="3.4"
           message="Avoid using enum as an identifier; it's a reserved word in JDK 1.5"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidenumasidentifier">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidenumasidentifier">
         <description>
 Use of the term `enum` will conflict with newer versions of Java since it is a reserved word.
 
@@ -388,7 +388,7 @@ public class A {
           since="3.0"
           message="Field {0} has the same name as a method"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidfieldnamematchingmethodname">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidfieldnamematchingmethodname">
         <description>
 It can be confusing to have a field name with the same name as a method. While this is permitted,
 having information (field) and actions (method) is not clear naming. Developers versed in
@@ -423,7 +423,7 @@ public class Foo {
           since="3.0"
           message="It is somewhat confusing to have a field name matching the declaring class name"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidfieldnamematchingtypename">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidfieldnamematchingtypename">
         <description>
 It is somewhat confusing to have a field name matching the declaring type name.
 This probably means that type and/or field names should be chosen more carefully.
@@ -456,7 +456,7 @@ public interface Operation {
           since="3.0"
           message="An instanceof check is being performed on the caught exception. Create a separate catch clause for {0}."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidinstanceofchecksincatchclause">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidinstanceofchecksincatchclause">
         <description>
 Each caught exception type should be handled in its own catch clause.
         </description>
@@ -497,7 +497,7 @@ try {  // Prefer this:
           since="4.2.6"
           message="Avoid using literals such as {0} in if statements"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidliteralsinifcondition">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidliteralsinifcondition">
         <description>
 Avoid using hard-coded literals in conditional statements. By declaring them as static variables
 or private members with descriptive names maintainability is enhanced. By default, the literals "-1" and "0" are ignored.
@@ -578,7 +578,7 @@ public void checkRequests() {
           language="java"
           message="Avoid statements in a catch block that invoke accessors on the exception without using the information"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidlosingexceptioninformation"
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidlosingexceptioninformation"
           deprecated="true">
         <description>
 Statements in a catch block that invoke accessors on the exception without using the information
@@ -621,7 +621,7 @@ public void bar() {
           since="4.2"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
           message="Using multiple unary operators may be a bug, and/or is confusing."
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidmultipleunaryoperators">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidmultipleunaryoperators">
         <description>
 The use of multiple unary operators may be problematic, and/or confusing.
 Ensure that the intended usage is not a bug, or consider simplifying the expression.
@@ -663,7 +663,7 @@ int j = -~7;
           since="3.9"
           message="Avoid integer literals that start with zero (interpreted as octal), remove the leading 0 to get a decimal literal (or use explicit 0x, 0b prefixes)"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.AvoidUsingOctalValuesRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#avoidusingoctalvalues">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#avoidusingoctalvalues">
         <description>
 Integer literals that start with zero are interpreted as octal (base-8) values in Java, which can lead to 
 unexpected behavior and bugs. Most developers expect decimal (base-10) interpretation, making octal literals 
@@ -694,7 +694,7 @@ int binaryValue = 0b1010; // Clearly binary (Java 7+)
           since="3.8"
           message="This expression will throw a NullPointerException"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.BrokenNullCheckRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#brokennullcheck">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#brokennullcheck">
         <description>
 The null check is broken since it will throw a NullPointerException itself.
 It is likely that you used || instead of &amp;&amp; or vice versa.
@@ -719,7 +719,7 @@ public String bar(String string) {
           language="java"
           message="super should be called at the start of the method"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#callsuperfirst">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#callsuperfirst">
         <description>Super should be called at the start of the method</description>
         <priority>3</priority>
         <properties>
@@ -762,7 +762,7 @@ public class DummyActivity extends Activity {
           language="java"
           message="super should be called at the end of the method"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#callsuperlast">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#callsuperlast">
         <description>
 Super should be called at the end of the method
         </description>
@@ -805,7 +805,7 @@ public class DummyActivity extends Activity {
           since="5.0"
           message="Check the value returned by the skip() method of an InputStream to see if the requested number of bytes has been skipped."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.CheckSkipResultRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#checkskipresult">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#checkskipresult">
         <description>
 The skip() method may skip a smaller number of bytes than requested. Check the returned value to find out if it was the case or not.
         </description>
@@ -837,7 +837,7 @@ public class Foo {
           since="3.4"
           message="This usage of the Collection.toArray() method will throw a ClassCastException."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#classcastexceptionwithtoarray">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#classcastexceptionwithtoarray">
         <description>
 When deriving an array of a specific class from your Collection, one should provide an array of
 the same class as the parameter of the `toArray()` method. Doing otherwise will result
@@ -874,7 +874,7 @@ Integer[] b = (Integer [])c.toArray(new Integer[0]);
           since="5.4.0"
           message="clone() method must be public if the class implements Cloneable"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#clonemethodmustbepublic">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#clonemethodmustbepublic">
         <description>
 The java manual says "By convention, classes that implement this interface should override
 Object.clone (which is protected) with a public method."
@@ -918,7 +918,7 @@ public class Foo implements Cloneable {
           since="1.9"
           message="clone() method should be implemented only if implementing Cloneable interface"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.CloneMethodMustImplementCloneableRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#clonemethodmustimplementcloneable">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#clonemethodmustimplementcloneable">
         <description>
 The method clone() should only be implemented if the class implements the Cloneable interface with the exception of
 a final method that only throws CloneNotSupportedException.
@@ -943,7 +943,7 @@ public class MyClass {
           since="5.4.0"
           message="The return type of the clone() method must be the class name when implements Cloneable"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#clonemethodreturntypemustmatchclassname">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#clonemethodreturntypemustmatchclassname">
         <description>
 If a class implements `Cloneable` the return type of the method `clone()` must be the class name. That way, the caller
 of the clone method doesn't need to cast the returned clone to the correct type.
@@ -985,7 +985,7 @@ public class Foo implements Cloneable {
           since="1.2.2"
           message="Ensure that resources like this {0} object are closed after use"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.CloseResourceRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#closeresource">
         <description>
 Ensure that resources (like `java.sql.Connection`, `java.sql.Statement`, and `java.sql.ResultSet` objects
 and any subtype of `java.lang.AutoCloseable`) are always closed after use.
@@ -1035,7 +1035,7 @@ public class Bar {
           since="7.17.0"
           message="Object of type ''{0}'' cannot be in collection expecting ''{1}''"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.CollectionTypeMismatchRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#collectiontypemismatch">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#collectiontypemismatch">
         <description>
 Detects method calls on collections where the passed object cannot possibly be in the collection
 due to type mismatch. This helps catch potential programming errors where incompatible types
@@ -1069,7 +1069,7 @@ names.contains(123); // violation: Integer cannot be in String set
           since="3.2"
           message="Use equals() to compare object references."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#compareobjectswithequals">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#compareobjectswithequals">
         <description>
 Use `equals()` to compare object references; avoid comparing them with `==`.
 
@@ -1122,7 +1122,7 @@ class Foo {
           since="6.36.0"
           message="Comparisons with NaN always return false"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#comparisonwithnan">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#comparisonwithnan">
         <description><![CDATA[
             Reports comparisons with double and float `NaN` (Not-a-Number) values.
             These are [specified](https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.21.1)
@@ -1158,7 +1158,7 @@ boolean x = (y == Double.NaN);
           since="7.1.0"
           message="Unclear if a varargs or non-varargs call is intended. Cast to {0} or {0}[], or pass varargs parameters separately to clarify intent."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.ConfusingArgumentToVarargsMethodRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#confusingargumenttovarargsmethod">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#confusingargumenttovarargsmethod">
         <description>
             Reports a confusing argument passed to a varargs method.
 
@@ -1213,7 +1213,7 @@ boolean x = (y == Double.NaN);
           since="1.04"
           message="Overridable {0} called during object construction{1}"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.ConstructorCallsOverridableMethodRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#constructorcallsoverridablemethod">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#constructorcallsoverridablemethod">
         <description>
 Reports calls to overridable methods on `this` during object initialization. These
 are invoked on an incompletely constructed object and can be difficult to debug if overridden.
@@ -1255,7 +1255,7 @@ public class JuniorClass extends SeniorClass {
           since="6.13.0"
           message="Probable detached JUnit test case."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.DetachedTestCaseRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#detachedtestcase">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#detachedtestcase">
         <description>
 The method appears to be a test case since it has public or default visibility,
 non-static access, no arguments, no return value, has no annotations, but is a
@@ -1285,7 +1285,7 @@ public class MyTest {
           since="4.2"
           message="Do not explicitly trigger a garbage collection."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#donotcallgarbagecollectionexplicitly">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#donotcallgarbagecollectionexplicitly">
         <description>
 Calls to `System.gc()`, `Runtime.getRuntime().gc()`, and `System.runFinalization()` are not advised.
 Code should have the same behavior whether the garbage collection is disabled using the option
@@ -1341,7 +1341,7 @@ public class GCCall {
           since="6.0.0"
           message="Exceptions should not extend java.lang.Throwable"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#donotextendjavalangthrowable">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#donotextendjavalangthrowable">
         <description>
 Extend Exception or RuntimeException instead of Throwable.
         </description>
@@ -1368,7 +1368,7 @@ public class Foo extends Throwable { }
           language="java"
           message="Do not hardcode /sdcard."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#donothardcodesdcard">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#donothardcodesdcard">
         <description>
 Use Environment.getExternalStorageDirectory() instead of "/sdcard"
         </description>
@@ -1396,7 +1396,7 @@ public class MyActivity extends Activity {
           since="4.1"
           message="System.exit() should not be used in J2EE/JEE apps"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#donotterminatevm">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#donotterminatevm">
         <description>
 Web applications should not call `System.exit()`, since only the web container or the
 application server should stop the JVM. Otherwise a web application would terminate all other applications
@@ -1437,7 +1437,7 @@ public void foo() {
           since="4.2"
           message="A throw statement in a finally block makes the control flow hard to understand."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#donotthrowexceptioninfinally">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#donotthrowexceptioninfinally">
         <description>
 Throwing exceptions within a 'finally' block is confusing since they may mask other exceptions
 or code defects.
@@ -1472,7 +1472,7 @@ public class Foo {
           since="1.5"
           message="Avoid importing anything from the 'sun.*' packages"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#dontimportsun">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#dontimportsun">
         <description>
 Avoid importing anything from the 'sun.*' packages. These packages are not portable
 and are likely to change.
@@ -1505,7 +1505,7 @@ public class Foo {}
           since="4.3"
           message="Don't use floating point for loop indices. If you must use floating point, use double."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#dontusefloattypeforloopindices">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#dontusefloattypeforloopindices">
         <description>
 Don't use floating point for loop indices. If you must use floating point, use double
 unless you're certain that float provides enough precision and you have a compelling
@@ -1543,7 +1543,7 @@ public class Count {
           since="0.1"
           message="Avoid empty catch blocks"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#emptycatchblock">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#emptycatchblock">
         <description>
 Empty Catch Block finds instances where an exception is caught, but nothing is done.
 In most circumstances, this swallows an exception which should either be acted on
@@ -1585,7 +1585,7 @@ public void doSomething() {
           since="1.5"
           message="Avoid empty finalize methods"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#emptyfinalizer">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#emptyfinalizer">
         <description>
 Empty finalize methods serve no purpose and should be removed. Note that Oracle has declared Object.finalize() as deprecated since JDK 9.
         </description>
@@ -1614,7 +1614,7 @@ public class Foo {
           since="1.9"
           message="Avoid using equals() to compare against null"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#equalsnull">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#equalsnull">
         <description>
 Tests for null should not use the equals() method. The '==' operator should be used instead.
         </description>
@@ -1648,7 +1648,7 @@ if (x == null) {        // preferred
           since="1.5"
           message="Last statement in finalize method should be a call to super.finalize()"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#finalizedoesnotcallsuperfinalize">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#finalizedoesnotcallsuperfinalize">
         <description>
 If the finalize() is implemented, its last action should be to call super.finalize. Note that Oracle has declared Object.finalize() as deprecated since JDK 9.
         </description>
@@ -1683,7 +1683,7 @@ protected void finalize() {
           since="1.5"
           message="Finalize should do something besides just calling super.finalize()"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#finalizeonlycallssuperfinalize">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#finalizeonlycallssuperfinalize">
         <description>
 If the finalize() is implemented, it should do something besides just calling super.finalize(). Note that Oracle has declared Object.finalize() as deprecated since JDK 9.
         </description>
@@ -1712,7 +1712,7 @@ protected void finalize() {
           since="1.5"
           message="Finalize methods should not be overloaded"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#finalizeoverloaded">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#finalizeoverloaded">
         <description>
 Methods named finalize() should not have parameters.  It is confusing and most likely an attempt to
 overload Object.finalize(). It will not be called by the VM.
@@ -1745,7 +1745,7 @@ public class Foo {
           since="1.1"
           message="If you override finalize(), make it protected"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#finalizeshouldbeprotected">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#finalizeshouldbeprotected">
         <description>
 When overriding the finalize(), the new method should be set as protected.  If made public,
 other classes may invoke it at inappropriate times.
@@ -1776,7 +1776,7 @@ public void finalize() {
           since="2.0"
           message="Avoid idempotent operations (like assigning a variable to itself)."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.IdempotentOperationsRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#idempotentoperations">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#idempotentoperations">
         <description>
 Avoid idempotent operations - they have no effect.
         </description>
@@ -1798,7 +1798,7 @@ public class Foo {
           since="3.0"
           message="This switch case may be reached by fallthrough from the previous case"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.ImplicitSwitchFallThroughRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#implicitswitchfallthrough">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#implicitswitchfallthrough">
         <description>
 Switch statements without break or return statements for each case option
 may indicate problematic behaviour. Empty cases are ignored as these indicate
@@ -1839,7 +1839,7 @@ public void bar(int status) {
           since="2.0"
           message="Avoid instantiating an object just to call getClass() on it; use the .class public member instead"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#instantiationtogetclass">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#instantiationtogetclass">
         <description>
 Avoid instantiating an object just to call getClass() on it; use the .class public member instead.
         </description>
@@ -1871,7 +1871,7 @@ Class c = String.class;
           since="5.5.0"
           message="Invalid message format"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.InvalidLogMessageFormatRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#invalidlogmessageformat">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#invalidlogmessageformat">
         <description>
 Check for messages in slf4j and log4j2 (since 6.19.0) loggers with non matching number of arguments and placeholders.
 
@@ -1896,7 +1896,7 @@ LOGGER.error("param {}", "arg1", new IllegalStateException("arg")); //The except
           since="1.0"
           message="Avoid modifying an outer loop incrementer in an inner loop for update expression"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#jumbledincrementer">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#jumbledincrementer">
         <description>
 Avoid jumbled loop incrementers - it's usually a mistake, and is confusing even if intentional.
         </description>
@@ -1934,7 +1934,7 @@ public class JumbledIncrementerRule1 {
           since="1.0"
           message="You may have misspelled a JUnit framework method (setUp or tearDown)"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.JUnitSpellingRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#junitspelling">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#junitspelling">
         <description>
             In JUnit 3, the setUp method is used to set up all data entities required in running tests.
             The tearDown method is used to clean up all data entities required in running tests.
@@ -1959,7 +1959,7 @@ public class Foo extends TestCase {
           message="You have a suite() method that is not both public and static, so JUnit won't call it to get your TestSuite.  Is that what you wanted to do?"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.JUnitStaticSuiteRule"
           typeResolution="true"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#junitstaticsuite">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#junitstaticsuite">
         <description>
 The suite() method in a JUnit test needs to be both public and static.
         </description>
@@ -1989,7 +1989,7 @@ public class Foo extends TestCase {
           since="1.5"
           message="A method should not have the same name as its containing class"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#methodwithsamenameasenclosingclass">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#methodwithsamenameasenclosingclass">
         <description>
 A method should not have the same name as its containing class.
 This would be confusing as it would look like a constructor. 
@@ -2021,7 +2021,7 @@ public class MyClass {
           since="3.5"
           message="The null check here is misplaced; if the variable ''{0}'' is null there will be a NullPointerException"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#misplacednullcheck">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#misplacednullcheck">
         <description>
 The null check here is misplaced. If the variable is null a `NullPointerException` will be thrown.
 Either the check is useless (the variable will never be `null`) or it is incorrect.
@@ -2091,7 +2091,7 @@ public class Foo {
           since="3.0"
           message="Classes implementing Serializable should set a serialVersionUID"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#missingserialversionuid">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#missingserialversionuid">
         <description>
 Serializable classes should provide a serialVersionUID field.
 The serialVersionUID field is also needed for abstract base classes. Each individual class in the inheritance
@@ -2126,7 +2126,7 @@ public class Foo implements java.io.Serializable {
           since="3.0"
           message="Class cannot be instantiated and does not provide any static methods or fields"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#missingstaticmethodinnoninstantiatableclass">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#missingstaticmethodinnoninstantiatableclass">
         <description>
 A class that has private constructors and does not have any static methods or fields cannot be used.
 
@@ -2201,7 +2201,7 @@ public class Foo {
           since="2.0"
           message="Class contains more than one logger."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#morethanonelogger">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#morethanonelogger">
         <description>
 Normally only one logger is used in each class. This rule supports slf4j, log4j, Java Util Logging and
 log4j2 (since 6.19.0).
@@ -2242,7 +2242,7 @@ public class Foo {
           since="1.5"
           message="A non-case label was present in a switch statement or expression"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#noncaselabelinswitch">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#noncaselabelinswitch">
         <description>
 A non-case label (e.g. a named break/continue label) was present in a switch statement or switch expression.
 This is legal, but confusing. It is easy to mix up the case labels and the non-case labels.
@@ -2278,7 +2278,7 @@ public class Foo {
           since="1.1"
           message="The field ''{0}'' of serializable class ''{1}'' is of non-serializable type ''{2}''."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.NonSerializableClassRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#nonserializableclass">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#nonserializableclass">
         <description>
 If a class is marked as `Serializable`, then all fields need to be serializable as well. In order to exclude
 a field, it can be marked as transient. Static fields are not considered.
@@ -2319,7 +2319,7 @@ class Buzz implements java.io.Serializable {
           since="1.5"
           message="Non-static initializers are confusing"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#nonstaticinitializer">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#nonstaticinitializer">
         <description>
 A non-static initializer block will be called any time a constructor is invoked (just prior to
 invoking the constructor).  While this is a valid language construct, it is rarely used and is
@@ -2352,7 +2352,7 @@ public class MyClass {
           since="1.02"
           message="Assigning an Object to null is a code smell.  Consider refactoring."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.NullAssignmentRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#nullassignment">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#nullassignment">
         <description>
 Assigning a "null" to a variable (outside of its declaration) is usually bad form.  Sometimes, this type
 of assignment is an indication that the programmer doesn't completely understand what is going on in the code.
@@ -2378,7 +2378,7 @@ public void bar() {
           since="0.4"
           message="Ensure you override both equals() and hashCode()"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.OverrideBothEqualsAndHashcodeRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#overridebothequalsandhashcode">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#overridebothequalsandhashcode">
         <description>
 Override both `public boolean Object.equals(Object other)` and `public int Object.hashCode()` or override neither.
 Even if you are inheriting a `hashCode()` from a parent class, consider implementing `hashCode()` and explicitly
@@ -2423,7 +2423,7 @@ public class Foo {        // perfect, both methods provided
           since="7.17.0"
           message="When implementing Comparable both equals() and hashCode() should be overridden"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.OverrideBothEqualsAndHashCodeOnComparableRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#overridebothequalsandhashcodeoncomparable">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#overridebothequalsandhashcodeoncomparable">
         <description>
             Classes that implement `Comparable` should override both `equals()` and
             `hashCode()` if instances of these classes are used in collections. This is
@@ -2486,7 +2486,7 @@ public class Foo implements Comparable<Foo> {  // correct
           since="1.4"
           message="Object clone() should be implemented with super.clone()"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.ProperCloneImplementationRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#propercloneimplementation">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#propercloneimplementation">
         <description>
 Object clone() should be implemented with super.clone().
         </description>
@@ -2507,7 +2507,7 @@ class Foo{
           since="3.3"
           message="Logger should be defined private static final and have the correct class"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#properlogger">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#properlogger">
         <description>
 A logger should normally be defined private static final and be associated with the correct class.
 `private final Log log;` is also allowed for rare cases where loggers need to be passed around,
@@ -2564,7 +2564,7 @@ public class Foo {
           message="Usage of java.util.Calendar should be replaced with classes from java.time"
           minimumLanguageVersion="1.8"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#replacejavautilcalendar">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#replacejavautilcalendar">
         <description>
 The legacy `java.util.Calendar` API is error-prone, mutable, and not thread-safe. It has confusing month indexing
 (January = 0), inconsistent field semantics, and verbose usage patterns. The modern `java.time API`
@@ -2624,7 +2624,7 @@ public class Foo {
           message="Usage of java.util.Date should be replaced with classes from java.time"
           minimumLanguageVersion="1.8"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#replacejavautildate">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#replacejavautildate">
         <description>
 The legacy `java.util.Date` class is mutable, not thread-safe, and has a confusing API. Many of its methods
 are deprecated, it doesn't handle timezones properly, and it represents both date and time even when only
@@ -2690,7 +2690,7 @@ public class Foo {
           since="6.37.0"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
           message="Return an empty collection rather than 'null'."
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#returnemptycollectionratherthannull">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#returnemptycollectionratherthannull">
         <description>
 For any method that returns an collection (such as an array, Collection or Map), it is better to return
 an empty one rather than a null reference. This removes the need for null checking all results and avoids
@@ -2738,7 +2738,7 @@ public class Example {
           since="1.05"
           message="Avoid returning from a finally block"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#returnfromfinallyblock">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#returnfromfinallyblock">
         <description>
 Avoid returning from a finally block, this can discard exceptions.
         </description>
@@ -2770,7 +2770,7 @@ public class Bar {
           since="2.0"
           message="When instantiating a SimpleDateFormat object, specify a Locale"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#simpledateformatneedslocale">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#simpledateformatneedslocale">
         <description>
 Be sure to specify a Locale when creating SimpleDateFormat instances to ensure that locale-appropriate
 formatting is used.
@@ -2802,7 +2802,7 @@ public class Foo {
           since="5.4"
           message="Class contains multiple getInstance methods. Please review."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.SingleMethodSingletonRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#singlemethodsingleton">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#singlemethodsingleton">
         <description>
 Some classes contain overloaded getInstance. The problem with overloaded getInstance methods
 is that the instance created using the overloaded method is not cached and so,
@@ -2835,7 +2835,7 @@ public class Singleton {
           since="5.4"
           message="getInstance method always creates a new object and hence does not comply to Singleton Design Pattern behaviour. Please review"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.SingletonClassReturningNewInstanceRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#singletonclassreturningnewinstance">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#singletonclassreturningnewinstance">
         <description>
             A singleton class should only ever have one instance. Failure to check
             whether an instance has already been created may result in multiple
@@ -2861,7 +2861,7 @@ class Singleton {
           since="4.1"
           message="EJB's shouldn't have non-final static fields"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#staticejbfieldshouldbefinal">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#staticejbfieldshouldbefinal">
         <description>
 According to the J2EE specification, an EJB should not have any static fields
 with write access. However, static read-only fields are allowed. This ensures proper
@@ -2903,7 +2903,7 @@ public class SomeEJB extends EJBObject implements EJBLocalHome {
           since="3.9"
           message="Argument to `new StringBuilder()` or `new StringBuffer()` is implicitly converted from char to int"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#stringbufferinstantiationwithchar">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#stringbufferinstantiationwithchar">
         <description>
 Individual character values provided as initialization arguments will be converted into integers.
 This can lead to internal buffer sizes that are larger than expected. Some examples:
@@ -2953,7 +2953,7 @@ StringBuilder sb4 = new StringBuilder("c");
           since="2.0"
           message="The method name and parameter number are suspiciously close to equals(Object)"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#suspiciousequalsmethodname">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#suspiciousequalsmethodname">
         <description>
 The method name and parameter number are suspiciously close to `Object.equals`, which can denote an
 intention to override it. However, the method does not override `Object.equals`, but overloads it instead.
@@ -3008,7 +3008,7 @@ public class Foo {
           since="1.5"
           message="The method name and return type are suspiciously close to hashCode()"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#suspicioushashcodemethodname">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#suspicioushashcodemethodname">
         <description>
 The method name and return type are suspiciously close to hashCode(), which may denote an intention
 to override the hashCode() method.
@@ -3043,7 +3043,7 @@ public class Foo {
           since="1.5"
           message="Suspicious decimal characters following octal escape in string literal: {0}"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.SuspiciousOctalEscapeRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#suspiciousoctalescape">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#suspiciousoctalescape">
         <description>
 A suspicious octal escape sequence was found inside a String literal.
 The Java language specification (section 3.10.6) says an octal
@@ -3072,7 +3072,7 @@ public void foo() {
           since="3.0"
           message="The class ''{0}'' might be a test class, but it contains no test cases."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.TestClassWithoutTestCasesRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#testclasswithouttestcases">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#testclasswithouttestcases">
         <description>
 Test classes typically end with the suffix "Test", "Tests" or "TestCase". Having a non-test class with that name
 is not a good practice, since most people will assume it is a test case. Test classes have test methods
@@ -3102,7 +3102,7 @@ public class CarTest {
           since="1.5"
           message="Do not use 'if' statements that are always true or always false"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#unconditionalifstatement">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#unconditionalifstatement">
         <description>
 Do not use "if" statements whose conditionals are always true or always false.
         </description>
@@ -3134,7 +3134,7 @@ public class Foo {
           since="3.0"
           message="assertTrue(true) or similar statements are unnecessary"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#unnecessarybooleanassertion">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#unnecessarybooleanassertion">
         <description>
 A JUnit test assertion with a boolean literal is unnecessary since it always will evaluate to the same thing.
 Consider using flow control (in case of `assertTrue(false)` or similar) or simply removing
@@ -3183,7 +3183,7 @@ public class SimpleTest extends TestCase {
           since="3.3"
           message="Using equalsIgnoreCase() is cleaner than using toUpperCase/toLowerCase().equals()."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.UnnecessaryCaseChangeRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#unnecessarycasechange">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#unnecessarycasechange">
         <description>
 Using equalsIgnoreCase() is faster than using toUpperCase/toLowerCase().equals()
         </description>
@@ -3202,7 +3202,7 @@ boolean answer2 = buz.toUpperCase().equalsIgnoreCase("BAZ");    // another unnec
           since="0.1"
           message="Avoid unnecessary temporaries when converting primitives to Strings"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#unnecessaryconversiontemporary">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#unnecessaryconversiontemporary">
         <description>
 Avoid the use temporary objects when converting primitives to Strings. Use the static conversion methods
 on the wrapper classes instead.
@@ -3243,7 +3243,7 @@ public String convert(int x) {
           since="3.5"
           message="Invoke equals() on the object you''ve already ensured is not null"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#unusednullcheckinequals">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#unusednullcheckinequals">
         <description>
 After checking an object reference for null, you should invoke equals() on that object rather than passing
 it to another object's equals() method.
@@ -3308,7 +3308,7 @@ public class Test {
           since="3.2"
           message="Use the correct logging statement for logging exceptions"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#usecorrectexceptionlogging">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#usecorrectexceptionlogging">
         <description>
 To make sure the full stacktrace is printed out, use the logging statement with two arguments: a String and a Throwable.
 
@@ -3348,7 +3348,7 @@ public class Main {
           since="4.1"
           message="Use equals() to compare strings instead of ''=='' or ''!=''"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#useequalstocomparestrings">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#useequalstocomparestrings">
         <description>
 Using '==' or '!=' to compare strings is only reliable if the interned string (`String#intern()`)
 is used on both sides.
@@ -3382,7 +3382,7 @@ public boolean test(String s) {
           since="3.5"
           message="The result of an operation on an immutable object is ignored"
           class="net.sourceforge.pmd.lang.java.rule.errorprone.UselessOperationOnImmutableRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#uselessoperationonimmutable"
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#uselessoperationonimmutable"
           deprecated="true">
         <description>
 An operation on an immutable object will not change the object itself since the result of the operation is a new object.
@@ -3417,7 +3417,7 @@ class Test {
           since="7.17.0"
           message="Do not call pure method {0} if the result is not used."
           class="net.sourceforge.pmd.lang.java.rule.errorprone.UselessPureMethodCallRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#uselesspuremethodcall">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#uselesspuremethodcall">
         <description>
 This rule detects method calls of pure methods whose result is unused. A pure method is a method without
 side effects. Therefore, ignoring the result of such a method call is likely a mistake.
@@ -3443,7 +3443,7 @@ public class Something {
           since="2.0"
           message="When doing a String.toLowerCase()/toUpperCase() call, use a Locale"
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#uselocalewithcaseconversions">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#uselocalewithcaseconversions">
         <description>
 When doing `String::toLowerCase()/toUpperCase()` conversions, use an explicit locale argument to specify the case
 transformation rules.
@@ -3497,7 +3497,7 @@ String z2 = a.toLowerCase(Locale.getDefault());
           since="3.7"
           message="In J2EE, getClassLoader() might not work as expected.  Use Thread.currentThread().getContextClassLoader() instead."
           class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#useproperclassloader">
+          externalInfoUrl="https://pmd.github.io/pmd/pmd_rules_java_errorprone.html#useproperclassloader">
         <description>
 In J2EE, the getClassLoader() method might not work as expected. Use
 Thread.currentThread().getContextClassLoader() instead.
